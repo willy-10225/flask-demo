@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from datetime import datetime
 from pm25 import get_pm25
 
@@ -11,11 +11,24 @@ def index(name='GUEST'):
     today = get_today()
 
     return render_template('./index.html', today=today, name=name)
-@app.route('/pm25')
+
+
+
+@app.route('/pm25', methods=['GET', 'POST'])
 def pm25():
+    sort = False
+
+    if(request.method == 'POST'):
+        if request.form.get('sort'):
+            sort = True
+        # if request.form.get('update'):
+        #     sort=False
+
     today = get_today()
-    columns,values=get_pm25()
+    columns, values = get_pm25(sort)
+
     return render_template('./pm25.html', **locals())
+
 
 @app.route('/stock')
 def stock():
