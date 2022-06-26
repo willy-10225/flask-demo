@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from datetime import datetime
-from pm25 import get_pm25
+from scrape.pm25 import get_pm25
 
 app = Flask(__name__)
 
